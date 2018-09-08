@@ -10,28 +10,46 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[MAX_RESUME_COUNT];
 
     void clear() {
-        Arrays.fill(storage, 0, size-1, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    void save(Resume resume) {
-        if (size > MAX_RESUME_COUNT) throw new ArrayIndexOutOfBoundsException("The number of resumes is too large");
+    void update(Resume resume) {
+        int index = indexOf(resume.uuid);
+        if (index < 0) {
+            System.out.println("Error: try to update not exists resume.");
+            return;
+        }
+        storage[index] = resume;
+    }
+
+    void save(Resume resume) throws ArrayIndexOutOfBoundsException {
+        if (size > MAX_RESUME_COUNT) {
+            throw new ArrayIndexOutOfBoundsException("Error: The number of resumes is too large.");
+        }
+        if (indexOf(resume.uuid) != -1) {
+            System.out.println("Error: resume already exists.");
+            return;
+        }
         storage[size++] = resume;
     }
 
     Resume get(String uuid) {
-        int idx = indexOf(uuid);
-        if (idx < 0) return null;
-        return storage[idx];
+        int index = indexOf(uuid);
+        if (index < 0) {
+            return null;
+        }
+        return storage[index];
     }
 
     void delete(String uuid) {
-        int idx = indexOf(uuid);
-        if (idx < 0) return;
-        for (int i = idx; i < size - 1; ++i) {
-            storage[i] = storage[i + 1];
+        int index = indexOf(uuid);
+        if (index < 0) {
+            System.out.println("Error: try to delete not exists resume.");
+            return;
         }
-        storage[--size] = null;
+        storage[index] = storage[--size];
+        storage[size] = null;
     }
 
     /**
