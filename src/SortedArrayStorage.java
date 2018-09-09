@@ -7,8 +7,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void save(Resume resume) {
-        if (isOverflow() || exists(resume)) return;
+    public void saveToArray(Resume resume) {
         int pos = getPositionTo(resume);
         for (int i = size - 1; i >= pos; --i) {
             storage[i + 1] = storage[i];
@@ -18,12 +17,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = indexOf(uuid);
-        if (index < 0) {
-            System.out.println("Error: try to delete not exists resume.");
-            return;
-        }
+    protected void deleteFromArray(int index) {
         for (int i = index; i < size - 1; ++i) {
             storage[i] = storage[i + 1];
         }

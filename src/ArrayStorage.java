@@ -3,17 +3,11 @@
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume resume) {
-        if (isOverflow() || exists(resume)) return;
+    protected void saveToArray(Resume resume) {
         storage[size++] = resume;
     }
 
-    public void delete(String uuid) {
-        int index = indexOf(uuid);
-        if (index < 0) {
-            System.out.println("Error: try to delete not exists resume.");
-            return;
-        }
+    protected void deleteFromArray(int index) {
         storage[index] = storage[--size];
         storage[size] = null;
     }
