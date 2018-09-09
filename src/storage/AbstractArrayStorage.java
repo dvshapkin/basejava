@@ -1,3 +1,9 @@
+package storage;
+
+import exception.ExistStorageException;
+import exception.NotExistStorageException;
+import exception.StorageException;
+
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
@@ -18,8 +24,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume resume) {
         int index = indexOf(resume.uuid);
         if (index < 0) {
-            System.out.println("Error: try to update not exists resume.");
-            return;
+            throw new NotExistStorageException(resume.uuid);
         }
         storage[index] = resume;
     }
@@ -27,9 +32,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = indexOf(resume.uuid);
         if (size == MAX_RESUME_COUNT) {
-            System.out.println("Error: storage is overflow.");
+            throw new StorageException(resume.uuid);
         } else if (index >= 0) {
-            System.out.println("Error: resume already exists.");
+            throw new ExistStorageException(resume.uuid);
         } else {
             insert(index, resume);
             ++size;
@@ -39,8 +44,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = indexOf(uuid);
         if (index < 0) {
-            System.out.println("Error: try to delete not exists resume.");
-            return;
+            throw new NotExistStorageException(uuid);
         }
         remove(index);
         storage[--size] = null;

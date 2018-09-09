@@ -1,3 +1,5 @@
+package storage;
+
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
