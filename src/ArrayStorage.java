@@ -3,13 +3,13 @@
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    protected void saveToArray(Resume resume) {
-        storage[size++] = resume;
+    protected void insert(int index, Resume resume) {
+        int insertIndex = -index - 1;
+        storage[insertIndex] = resume;
     }
 
-    protected void deleteFromArray(int index) {
-        storage[index] = storage[--size];
-        storage[size] = null;
+    protected void remove(int index) {
+        storage[index] = storage[size - 1];
     }
 
     @Override
@@ -19,6 +19,6 @@ public class ArrayStorage extends AbstractArrayStorage {
                 return i;
             }
         }
-        return -1;
+        return -(size + 1);
     }
 }
