@@ -1,16 +1,11 @@
 package storage;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class ListStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage {
 
-    private List<Resume> storage = new ArrayList<>();
-
-    @Override
-    public int size() {
-        return storage.size();
-    }
+    private Map<String, Resume> storage = new TreeMap<>();
 
     @Override
     public void clear() {
@@ -19,37 +14,41 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        return storage.values().toArray(new Resume[0]);
+    }
+
+    @Override
+    public int size() {
+        return storage.size();
     }
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+        return uuid;
     }
 
     @Override
     protected boolean exist(Object searchKey) {
-        return (int)searchKey >= 0 && (int)searchKey < storage.size();
+        return storage.containsKey(searchKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage.get((int) searchKey);
+        return storage.get(searchKey);
     }
 
     @Override
     protected void doUpdate(Object searchKey, Resume resume) {
-        storage.set((int) searchKey, resume);
+        storage.replace((String) searchKey, resume);
     }
 
     @Override
     protected void doSave(Object searchKey, Resume resume) {
-        storage.add(resume);
+        storage.put((String) searchKey, resume);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        storage.remove((int) searchKey);
+        storage.remove(searchKey);
     }
-
 }
