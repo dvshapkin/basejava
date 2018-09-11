@@ -1,7 +1,6 @@
 package storage;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -9,38 +8,48 @@ public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<>();
 
     @Override
+    public int size() {
+        return storage.size();
+    }
+
+    @Override
+    public void clear() {
+        storage.clear();
+    }
+
+    @Override
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
 
     @Override
-    protected void doClear() {
-        storage.clear();
+    protected Object getSearchKey(String uuid) {
+        return storage.indexOf(new Resume(uuid));
     }
 
     @Override
-    protected Resume getByIndex(int index) {
-        return storage.get(index);
+    protected boolean exist(Object searchKey) {
+        return (int)searchKey >= 0;
     }
 
     @Override
-    protected void updateByIndex(int index, Resume resume) {
-        storage.set(index, resume);
+    protected Resume doGet(Object searchKey) {
+        return storage.get((int) searchKey);
     }
 
     @Override
-    protected int indexOf(String uuid) {
-        return Collections.binarySearch(storage, new Resume(uuid));
+    protected void doUpdate(Object searchKey, Resume resume) {
+        storage.set((int) searchKey, resume);
     }
 
     @Override
-    protected void insert(int index, Resume resume) {
-        int insertIndex = -index - 1;
-        storage.add(insertIndex, resume);
+    protected void doSave(Object searchKey, Resume resume) {
+        storage.add(resume);
     }
 
     @Override
-    protected void remove(int index) {
-        storage.remove(index);
+    protected void doDelete(Object searchKey) {
+        storage.remove((int) searchKey);
     }
+
 }

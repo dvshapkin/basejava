@@ -9,10 +9,10 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
 
-    private static final Resume RESUME_1 = new Resume("uuid1");
-    private static final Resume RESUME_2 = new Resume("uuid2");
-    private static final Resume RESUME_3 = new Resume("uuid3");
-    private Storage storage;
+    protected static final Resume RESUME_1 = new Resume("uuid1");
+    protected static final Resume RESUME_2 = new Resume("uuid2");
+    protected static final Resume RESUME_3 = new Resume("uuid3");
+    protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -22,8 +22,8 @@ public abstract class AbstractStorageTest {
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
-        storage.save(RESUME_2);
         storage.save(RESUME_3);
+        storage.save(RESUME_2);
     }
 
     @Test
@@ -53,8 +53,8 @@ public abstract class AbstractStorageTest {
         Resume[] resumes = storage.getAll();
         assertEquals(3, resumes.length);
         assertEquals(RESUME_1, resumes[0]);
-        assertEquals(RESUME_2, resumes[1]);
-        assertEquals(RESUME_3, resumes[2]);
+        assertEquals(RESUME_3, resumes[1]);
+        assertEquals(RESUME_2, resumes[2]);
     }
 
     @Test
@@ -84,20 +84,20 @@ public abstract class AbstractStorageTest {
     @Test
     public void delete() {
         int oldSize = storage.size();
-        storage.delete(RESUME_2.uuid);
+        storage.delete(RESUME_3.uuid);
         assertEquals(oldSize - 1, storage.size());
         Resume[] resumes = storage.getAll();
         assertEquals(RESUME_1, resumes[0]);
-        assertEquals(RESUME_3, resumes[1]);
+        assertEquals(RESUME_2, resumes[1]);
 
         oldSize = storage.size();
         storage.delete(RESUME_1.uuid);
         assertEquals(oldSize - 1, storage.size());
         resumes = storage.getAll();
-        assertEquals(RESUME_3, resumes[0]);
+        assertEquals(RESUME_2, resumes[0]);
 
         oldSize = storage.size();
-        storage.delete(RESUME_3.uuid);
+        storage.delete(RESUME_2.uuid);
         assertEquals(oldSize - 1, storage.size());
         resumes = storage.getAll();
         assertEquals(0, resumes.length);

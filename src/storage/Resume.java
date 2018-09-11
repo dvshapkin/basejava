@@ -31,4 +31,14 @@ public class Resume implements Comparable<Resume> {
     public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
     }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return uuid.equals(((Resume)obj).uuid);
+    }
 }
