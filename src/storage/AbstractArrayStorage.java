@@ -1,10 +1,27 @@
 package storage;
 
+import exception.ExistStorageException;
+import exception.NotExistStorageException;
+import exception.StorageException;
+
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
+    private final int MAX_RESUME_COUNT = 10_000;
+    protected int size = 0;
     protected Resume[] storage = new Resume[MAX_RESUME_COUNT];
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
+    }
 
     @Override
     public Resume[] getAll() {
@@ -12,24 +29,43 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doClear() {
-        Arrays.fill(storage, 0, size, null);
+    protected Object getSearchKey(String uuid) {
+        return indexOf(uuid);
     }
 
     @Override
-    protected Resume getByIndex(int index) {
-        return storage[index];
+    protected boolean exist(Object searchKey) {
+        return (int)searchKey >= 0;
     }
 
     @Override
-    protected void updateByIndex(int index, Resume resume) {
-        storage[index] = resume;
+    protected Resume doGet(Object searchKey) {
+        return storage[(int) searchKey];
     }
 
     @Override
-    public void delete(String uuid) {
-        super.delete(uuid);
-        storage[size] = null;
+    protected void doUpdate(Object searchKey, Resume resume) {
+        storage[(int) searchKey] = resume;
     }
 
+    @Override
+    protected void doSave(Object searchKey, Resume resume) {
+        if (size == MAX_RESUME_COUNT) {
+            throw new StorageException(resume.uuid);
+        }
+        insert((int)searchKey, resume);
+        ++size;
+    }
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        remove((int) searchKey);
+        storage[--size] = null;
+    }
+
+    protected abstract int indexOf(String uuid);
+
+    protected abstract void insert(int index, Resume resume);
+
+    protected abstract void remove(int index);
 }
