@@ -3,10 +3,9 @@ package storage;
 import exception.StorageException;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int MAX_RESUME_COUNT = 10_000;
     protected int size = 0;
@@ -34,32 +33,32 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean exist(Object searchKey) {
-        return (int)searchKey >= 0;
+    protected boolean exist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return storage[(int) searchKey];
+    protected Resume doGet(Integer searchKey) {
+        return storage[searchKey];
     }
 
     @Override
-    protected void doUpdate(Object searchKey, Resume resume) {
-        storage[(int) searchKey] = resume;
+    protected void doUpdate(Integer searchKey, Resume resume) {
+        storage[searchKey] = resume;
     }
 
     @Override
-    protected void doSave(Object searchKey, Resume resume) {
+    protected void doSave(Integer searchKey, Resume resume) {
         if (size == MAX_RESUME_COUNT) {
             throw new StorageException(resume.uuid);
         }
-        insert((int)searchKey, resume);
+        insert(searchKey, resume);
         ++size;
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        remove((int) searchKey);
+    protected void doDelete(Integer searchKey) {
+        remove(searchKey);
         storage[--size] = null;
     }
 

@@ -6,19 +6,19 @@ import exception.NotExistStorageException;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<K> implements Storage {
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract K getSearchKey(String uuid);
 
-    protected abstract boolean exist(Object searchKey);
+    protected abstract boolean exist(K searchKey);
 
-    protected abstract Resume doGet(Object searchKey);
+    protected abstract Resume doGet(K searchKey);
 
-    protected abstract void doUpdate(Object searchKey, Resume resume);
+    protected abstract void doUpdate(K searchKey, Resume resume);
 
-    protected abstract void doSave(Object searchKey, Resume resume);
+    protected abstract void doSave(K searchKey, Resume resume);
 
-    protected abstract void doDelete(Object searchKey);
+    protected abstract void doDelete(K searchKey);
 
     protected abstract List<Resume> doGetAll();
 
@@ -34,7 +34,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        Object searchKey = getSearchKey(resume.uuid);
+        K searchKey = getSearchKey(resume.uuid);
         if (exist(searchKey)) {
             throw new ExistStorageException(resume.uuid);
         }
@@ -53,9 +53,9 @@ public abstract class AbstractStorage implements Storage {
         return list;
     }
 
-    private Object getExistSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
-        if (! exist(searchKey)) {
+    private K getExistSearchKey(String uuid) {
+        K searchKey = getSearchKey(uuid);
+        if (!exist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
         return searchKey;

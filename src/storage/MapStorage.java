@@ -2,7 +2,7 @@ package storage;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage<Resume> {
 
     private Map<String, Resume> storage = new TreeMap<>();
 
@@ -32,27 +32,27 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean exist(Object resume) {
+    protected boolean exist(Resume resume) {
         return resume != null;
     }
 
     @Override
-    protected Resume doGet(Object resume) {
-        return storage.get(((Resume) resume).uuid);
+    protected Resume doGet(Resume resume) {
+        return storage.get(resume.uuid);
     }
 
     @Override
-    protected void doUpdate(Object r, Resume resume) {
-        storage.replace(((Resume) r).uuid, resume);
+    protected void doUpdate(Resume r, Resume resume) {
+        storage.replace(r.uuid, resume);
     }
 
     @Override
-    protected void doSave(Object r, Resume resume) {
+    protected void doSave(Resume r, Resume resume) {
         storage.put(resume.uuid, resume);
     }
 
     @Override
-    protected void doDelete(Object resume) {
-        storage.remove(((Resume)resume).getUuid());
+    protected void doDelete(Resume resume) {
+        storage.remove(resume.getUuid());
     }
 }
