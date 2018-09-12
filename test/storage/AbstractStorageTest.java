@@ -2,16 +2,19 @@ package storage;
 
 import exception.ExistStorageException;
 import exception.NotExistStorageException;
+import exception.StorageException;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
 
-    protected static final Resume RESUME_1 = new Resume("uuid1");
-    protected static final Resume RESUME_2 = new Resume("uuid2");
-    protected static final Resume RESUME_3 = new Resume("uuid3");
+    protected static final Resume RESUME_1 = new Resume("uuid1", "Name1");
+    protected static final Resume RESUME_2 = new Resume("uuid2", "Name2");
+    protected static final Resume RESUME_3 = new Resume("uuid3", "Name3");
     protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -40,7 +43,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void get() {
         Resume resume = storage.get(RESUME_2.uuid);
-        assertEquals(RESUME_2.uuid, resume.getUuid());
+        assertEquals(RESUME_2, resume);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -58,19 +61,28 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
+    public void getAllSorted() {
+        List<Resume> resumes = storage.getAllSorted();
+        assertEquals(3, resumes.size());
+        assertEquals(RESUME_1, resumes.get(0));
+        assertEquals(RESUME_2, resumes.get(1));
+        assertEquals(RESUME_3, resumes.get(2));
+    }
+
+    @Test
     public void update() {
 
     }
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.update(new Resume());
+        storage.update(new Resume("Иванов Иван"));
     }
 
     @Test
     public void save() {
         int oldSize = storage.size();
-        Resume newResume = new Resume();
+        Resume newResume = new Resume("Иванов Иван");
         storage.save(newResume);
         assertEquals(oldSize + 1, storage.size());
         assertEquals(newResume, storage.get(newResume.uuid));

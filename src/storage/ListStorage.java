@@ -1,6 +1,7 @@
 package storage;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -23,13 +24,23 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
+    protected List<Resume> doGetAll() {
+        return new ArrayList<>(storage);
+    }
+
+    @Override
     protected Integer getSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+        for (int i = 0; i < storage.size(); ++i) {
+            if (uuid.equals(storage.get(i).uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     protected boolean exist(Object searchKey) {
-        return (int)searchKey >= 0 && (int)searchKey < storage.size();
+        return (int) searchKey >= 0 && (int) searchKey < storage.size();
     }
 
     @Override
@@ -51,5 +62,4 @@ public class ListStorage extends AbstractStorage {
     protected void doDelete(Object searchKey) {
         storage.remove((int) searchKey);
     }
-
 }

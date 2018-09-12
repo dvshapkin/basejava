@@ -3,10 +3,12 @@ package storage;
 import exception.StorageException;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
-    private final int MAX_RESUME_COUNT = 10_000;
+    protected static final int MAX_RESUME_COUNT = 10_000;
     protected int size = 0;
     protected Resume[] storage = new Resume[MAX_RESUME_COUNT];
 
@@ -27,8 +29,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Integer getSearchKey(String uuid) {
-        return indexOf(uuid);
+    protected List<Resume> doGetAll() {
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override
@@ -61,7 +63,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[--size] = null;
     }
 
-    protected abstract int indexOf(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void insert(int index, Resume resume);
 

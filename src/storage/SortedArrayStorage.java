@@ -1,12 +1,15 @@
 package storage;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
+    private static final Comparator<Resume> UUID_COMPARATOR = Comparator.comparing(Resume::getUuid);
+
     @Override
-    protected int indexOf(String uuid) {
-        return Arrays.binarySearch(storage, 0, size, new Resume(uuid));
+    protected Integer getSearchKey(String uuid) {
+        return Arrays.binarySearch(storage, 0, size, new Resume(uuid, ""), UUID_COMPARATOR);
     }
 
     @Override
