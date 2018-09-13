@@ -2,6 +2,7 @@ package storage;
 
 import exception.ExistStorageException;
 import exception.NotExistStorageException;
+import model.Resume;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,16 +35,16 @@ public abstract class AbstractStorage<K> implements Storage {
     @Override
     public void update(Resume resume) {
         LOG.info("update " + resume);
-        doUpdate(getExistSearchKey(resume.uuid), resume);
+        doUpdate(getExistSearchKey(resume.getUuid()), resume);
     }
 
     @Override
     public void save(Resume resume) {
         LOG.info("save " + resume);
-        K searchKey = getSearchKey(resume.uuid);
+        K searchKey = getSearchKey(resume.getUuid());
         if (exist(searchKey)) {
-            LOG.info(String.format("storage.Resume %s already exists.", resume.getUuid()));
-            throw new ExistStorageException(resume.uuid);
+            LOG.info(String.format("model.Resume %s already exists.", resume.getUuid()));
+            throw new ExistStorageException(resume.getUuid());
         }
         doSave(searchKey, resume);
     }
@@ -66,7 +67,7 @@ public abstract class AbstractStorage<K> implements Storage {
         LOG.info("getExistSearchKey " + uuid);
         K searchKey = getSearchKey(uuid);
         if (!exist(searchKey)) {
-            LOG.info(String.format("storage.Resume %s is not exists.", uuid));
+            LOG.info(String.format("model.Resume %s is not exists.", uuid));
             throw new NotExistStorageException(uuid);
         }
         return searchKey;

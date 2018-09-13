@@ -1,5 +1,7 @@
 package storage;
 
+import model.Resume;
+
 import java.util.*;
 
 public class MapStorage extends AbstractStorage<Resume> {
@@ -38,17 +40,17 @@ public class MapStorage extends AbstractStorage<Resume> {
 
     @Override
     protected Resume doGet(Resume resume) {
-        return storage.get(resume.uuid);
+        return storage.get(resume.getUuid());
     }
 
     @Override
     protected void doUpdate(Resume r, Resume resume) {
-        storage.replace(r.uuid, resume);
+        storage.replace(r.getUuid(), resume);
     }
 
     @Override
     protected void doSave(Resume r, Resume resume) {
-        storage.put(resume.uuid, resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override

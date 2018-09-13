@@ -1,4 +1,4 @@
-import storage.Resume;
+import model.Resume;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,6 +1,7 @@
 package storage;
 
 import exception.StorageException;
+import model.Resume;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +51,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     @Override
     protected void doSave(Integer searchKey, Resume resume) {
         if (size == MAX_RESUME_COUNT) {
-            throw new StorageException(resume.uuid);
+            throw new StorageException(resume.getUuid());
         }
         insert(searchKey, resume);
         ++size;

@@ -1,5 +1,7 @@
-package storage;
+package model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,9 +10,9 @@ import java.util.UUID;
  */
 public class Resume implements Comparable<Resume> {
 
-    // Unique identifier
-    final String uuid;
+    private final String uuid;
     private String fullName;
+    private Map<SectionType, BaseSection> sections = new HashMap<>();
 
 
     public Resume(String fullName) {
@@ -35,6 +37,15 @@ public class Resume implements Comparable<Resume> {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+
+    public void addSection(BaseSection content) {
+        sections.put(content.getType(), content);
+    }
+
+    public BaseSection getSection(SectionType type) {
+        return sections.get(type);
     }
 
 

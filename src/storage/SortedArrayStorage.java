@@ -1,5 +1,7 @@
 package storage;
 
+import model.Resume;
+
 import java.util.Arrays;
 import java.util.Comparator;
 

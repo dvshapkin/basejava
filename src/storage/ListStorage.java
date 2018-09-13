@@ -1,7 +1,8 @@
 package storage;
 
+import model.Resume;
+
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage<Integer> {
@@ -31,7 +32,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     @Override
     protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); ++i) {
-            if (uuid.equals(storage.get(i).uuid)) {
+            if (uuid.equals(storage.get(i).getUuid())) {
                 return i;
             }
         }

@@ -2,7 +2,7 @@ package storage;
 
 import exception.ExistStorageException;
 import exception.NotExistStorageException;
-import exception.StorageException;
+import model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        Resume resume = storage.get(RESUME_2.uuid);
+        Resume resume = storage.get(RESUME_2.getUuid());
         assertEquals(RESUME_2, resume);
     }
 
@@ -85,7 +85,7 @@ public abstract class AbstractStorageTest {
         Resume newResume = new Resume("Иванов Иван");
         storage.save(newResume);
         assertEquals(oldSize + 1, storage.size());
-        assertEquals(newResume, storage.get(newResume.uuid));
+        assertEquals(newResume, storage.get(newResume.getUuid()));
     }
 
     @Test(expected = ExistStorageException.class)
@@ -96,20 +96,20 @@ public abstract class AbstractStorageTest {
     @Test
     public void delete() {
         int oldSize = storage.size();
-        storage.delete(RESUME_3.uuid);
+        storage.delete(RESUME_3.getUuid());
         assertEquals(oldSize - 1, storage.size());
         Resume[] resumes = storage.getAll();
         assertEquals(RESUME_1, resumes[0]);
         assertEquals(RESUME_2, resumes[1]);
 
         oldSize = storage.size();
-        storage.delete(RESUME_1.uuid);
+        storage.delete(RESUME_1.getUuid());
         assertEquals(oldSize - 1, storage.size());
         resumes = storage.getAll();
         assertEquals(RESUME_2, resumes[0]);
 
         oldSize = storage.size();
-        storage.delete(RESUME_2.uuid);
+        storage.delete(RESUME_2.getUuid());
         assertEquals(oldSize - 1, storage.size());
         resumes = storage.getAll();
         assertEquals(0, resumes.length);

@@ -1,5 +1,5 @@
 import storage.ArrayStorage;
-import storage.Resume;
+import model.Resume;
 import storage.Storage;
 
 import java.io.BufferedReader;
