@@ -3,21 +3,22 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiSection extends BaseSection<List<String>> {
+public class OrgSection extends BaseSection<List<Organization>> {
 
-    public MultiSection(String title) {
+    public OrgSection(String title) {
         super(title);
         content = new ArrayList<>();
     }
 
-    public void addItem(String item) {
+    public void addItem(Organization item) {
         content.add(item);
     }
 
+    @Override
     String formatContent() {
         StringBuilder sb = new StringBuilder();
-        for (String item : content) {
-            sb.append("\t- " + item + '\n');
+        for (Organization item : content) {
+            sb.append("\t- " + item.toString() + '\n');
         }
         return sb.toString();
     }

@@ -9,13 +9,8 @@ public class SectionTest extends BaseSectionTest<String> {
 
     @Before
     public void setUp() {
-        section = new Section(SectionType.PERSONAL, SectionType.PERSONAL.getTitle());
+        section = new Section(SectionType.PERSONAL.getTitle());
         section.setContent("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
-    }
-
-    @Test
-    public void getType() {
-        assertEquals(SectionType.PERSONAL, section.getType());
     }
 
     @Test

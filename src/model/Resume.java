@@ -1,9 +1,6 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -12,7 +9,8 @@ public class Resume implements Comparable<Resume> {
 
     private final String uuid;
     private String fullName;
-    private Map<SectionType, BaseSection> sections = new HashMap<>();
+    private Map<SectionType, BaseSection> sections = new EnumMap<>(SectionType.class);
+    private Map<ContactType, Contact> contacts = new EnumMap<>(ContactType.class);
 
 
     public Resume(String fullName) {
@@ -40,12 +38,37 @@ public class Resume implements Comparable<Resume> {
     }
 
 
-    public void addSection(BaseSection content) {
-        sections.put(content.getType(), content);
+    public Map<SectionType, BaseSection> getSections() {
+        return sections;
+    }
+
+    public void setSections(Map<SectionType, BaseSection> sections) {
+        this.sections = sections;
+    }
+
+    public void addSection(SectionType type, BaseSection section) {
+        sections.put(type, section);
     }
 
     public BaseSection getSection(SectionType type) {
         return sections.get(type);
+    }
+
+
+    public Map<ContactType, Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Map<ContactType, Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public void addContact(ContactType type, Contact contact) {
+        contacts.put(type, contact);
+    }
+
+    public Contact getContact(ContactType type) {
+        return contacts.get(type);
     }
 
 

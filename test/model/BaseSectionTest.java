@@ -13,12 +13,6 @@ public class BaseSectionTest<T> {
     protected BaseSection<T> section;
 
     @Test
-    public void setType() {
-        section.setType(SectionType.OBJECTIVE);
-        assertEquals(SectionType.OBJECTIVE, section.getType());
-    }
-
-    @Test
     public void getTitle() {
         String title = "Section title";
         section.setTitle(title);

@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         SectionTest.class,
-        MultiSectionTest.class
+        MultiSectionTest.class,
+        ResumeTest.class
 })
 public class AllTests {
 }

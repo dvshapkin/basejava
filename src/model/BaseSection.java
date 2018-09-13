@@ -1,21 +1,11 @@
 package model;
 
 public abstract class BaseSection<T> {
-    protected SectionType type;
     protected String title;
     protected T content;
 
-    public BaseSection(SectionType type, String title) {
-        this.type = type;
+    public BaseSection(String title) {
         this.title = title;
-    }
-
-    public SectionType getType() {
-        return type;
-    }
-
-    public void setType(SectionType type) {
-        this.type = type;
     }
 
     public String getTitle() {
