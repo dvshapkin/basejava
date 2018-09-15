@@ -2,33 +2,29 @@ package storage;
 
 import exception.StorageException;
 import model.Resume;
+import storage.serializer.StreamSerializer;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
 
     private Path directory;
+    private StreamSerializer streamSerializer;
 
-    protected abstract void doWrite(OutputStream out, Resume resume) throws IOException;
-
-    protected abstract Resume doRead(InputStream in) throws IOException;
-
-    protected AbstractPathStorage(String dir) throws IOException {
+    protected PathStorage(String dir, StreamSerializer streamSerializer) throws IOException {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
+        this.streamSerializer = streamSerializer;
     }
 
     @Override
@@ -44,7 +40,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException(path.toString(), "Couldn't read file", e);
         }
@@ -53,7 +49,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            doWrite(new BufferedOutputStream(Files.newOutputStream(path)), resume);
+            streamSerializer.doWrite(new BufferedOutputStream(Files.newOutputStream(path)), resume);
         } catch (IOException e) {
             throw new StorageException(path.toString(), "Couldn't write file", e);
         }

@@ -2,16 +2,17 @@ package storage;
 
 import model.Resume;
 import org.junit.Test;
+import storage.serializer.ObjectStreamSerializer;
 
 import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ObjectStreamPathStorageTest extends AbstractStorageTest {
+public class ObjectFileStorageTest extends AbstractStorageTest {
 
-    public ObjectStreamPathStorageTest() throws IOException {
-        super(new ObjectStreamPathStorage(AbstractStorageTest.PATH));
+    public ObjectFileStorageTest() throws IOException {
+        super(new FileStorage(new File(AbstractStorageTest.PATH), new ObjectStreamSerializer()));
     }
 
     @Test
