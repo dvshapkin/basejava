@@ -5,6 +5,8 @@ import java.util.List;
 
 public class OrgSection extends BaseSection<List<Organization>> {
 
+    private static final long serialVersionUID = 1L;
+
     public OrgSection(String title) {
         super(title);
         content = new ArrayList<>();

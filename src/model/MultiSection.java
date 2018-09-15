@@ -5,6 +5,8 @@ import java.util.List;
 
 public class MultiSection extends BaseSection<List<String>> {
 
+    private static final long serialVersionUID = 1L;
+
     public MultiSection(String title) {
         super(title);
         content = new ArrayList<>();

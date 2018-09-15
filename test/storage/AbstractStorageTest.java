@@ -12,6 +12,8 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
 
+    protected static final String PATH = "/home/dvshapkin/projects/basejava/storage";
+
     protected static final Resume RESUME_1 = new Resume("uuid1", "Name1");
     protected static final Resume RESUME_2 = new Resume("uuid2", "Name2");
     protected static final Resume RESUME_3 = new Resume("uuid3", "Name3");
