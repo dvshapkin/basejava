@@ -2,21 +2,44 @@ package storage;
 
 import exception.ExistStorageException;
 import exception.NotExistStorageException;
-import model.Resume;
+import model.*;
 import org.junit.Before;
 import org.junit.Test;
+import util.Config;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
 
-    protected static final String PATH = "/home/dvshapkin/projects/basejava/storage";
+    protected static final String PATH = Config.getInstance().getStorageDir();
 
     protected static final Resume RESUME_1 = new Resume("uuid1", "Name1");
     protected static final Resume RESUME_2 = new Resume("uuid2", "Name2");
     protected static final Resume RESUME_3 = new Resume("uuid3", "Name3");
+
+    private static Map<ContactType, Contact> CONTACTS_MAP = new EnumMap<>(ContactType.class);
+
+    private static Map<SectionType, BaseSection> SECTION_MAP = new EnumMap<>(SectionType.class);
+    private static Section SIMPLE_SECTION = new Section(SectionType.OBJECTIVE.getTitle(), "Content");
+    private static MultiSection MULTI_SECTION = new MultiSection("Title multi section");
+
+    static {
+        CONTACTS_MAP.put(ContactType.PHONE, new Contact("+7(383) 202-12-26"));
+        CONTACTS_MAP.put(ContactType.EMAIL, new Contact("dvshapkin@mail.ru"));
+        CONTACTS_MAP.put(ContactType.SKYPE, new Contact("dvshapkin"));
+        CONTACTS_MAP.put(ContactType.PROFILE, new Contact("dvshapkin@github.com"));
+        CONTACTS_MAP.put(ContactType.HOMEPAGE, new Contact("https://www.dvshapkin.ru"));
+        RESUME_2.setContacts(CONTACTS_MAP);
+
+        MULTI_SECTION.addItem("Content item 1");
+        MULTI_SECTION.addItem("Content item 2");
+        MULTI_SECTION.addItem("Content item 3");
+    }
+
     protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
